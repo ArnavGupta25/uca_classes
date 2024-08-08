@@ -10,3 +10,4 @@
 .vagrant/rgloader/loader.rb
 pg_config.sh
 Vagrantfile
+a.out
