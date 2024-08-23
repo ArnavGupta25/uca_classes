@@ -12,3 +12,7 @@ pg_config.sh
 Vagrantfile
 a.out
 C Project
+new library/calculators/lib.a
+new library/calculators/run
+new library/calculators/lib1.a
+new library/calculators/run1
