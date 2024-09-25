@@ -26,3 +26,43 @@ public:
         return {b1, b2};
     }
 };
+
+//quick select
+
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int partition(vector<int>& nums, int left, int right) {
+    int pivot = nums[right];
+    int i = left;
+    
+    for (int j = left; j < right; j++) {
+        if (nums[j] <= pivot) {
+            swap(nums[i], nums[j]);
+            i++;
+        }
+    }
+    swap(nums[i], nums[right]);
+    return i;
+}
+
+void quickSelect(vector<int>& nums, int left, int right, int k) {
+    if (left <= right) {
+        int pivotIndex = partition(nums, left, right);
+        
+        if (pivotIndex == k) {
+            return;  
+        } else if (pivotIndex > k) {
+            quickSelect(nums, left, pivotIndex - 1, k);
+        } else {
+            quickSelect(nums, pivotIndex + 1, right, k); 
+        }
+    }
+}
+
+vector<int> smallestKElements(vector<int>& nums, int k) {
+    quickSelect(nums, 0, nums.size() - 1, k - 1); 
+    return vector<int>(nums.begin(), nums.begin() + k);
+}
