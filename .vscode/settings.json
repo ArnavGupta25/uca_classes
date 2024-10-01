@@ -68,5 +68,10 @@
         "typeindex": "cpp",
         "typeinfo": "cpp",
         "valarray": "cpp"
-    }
+    },
+    "java.project.sourcePaths": [
+        ".",
+        "priority_queue"
+    ],
+    "java.project.referencedLibraries": []
 }
