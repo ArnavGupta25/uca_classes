@@ -32,3 +32,6 @@ java_programs/Task2.class
 java_programs/Task3.class
 java_programs/BST.class
 java_programs/BST$Node.class
+Functional Programming (Java)/Predicates/CheckPrime.class
+Functional Programming (Java)/Predicates/Palindrome.class
+Functional Programming (Java)/Predicates/Validexpression.class
