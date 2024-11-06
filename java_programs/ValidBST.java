@@ -1,6 +1,6 @@
 // import java.util.*;
 
-public class BST {
+public class ValidBST {
     class Node {
         int val;
         Node left;
@@ -29,7 +29,7 @@ public class BST {
     }
 
     public static void main(String[] args) {
-        BST tree = new BST();
+        ValidBST tree = new ValidBST();
         Node root = tree.new Node(4);
         root.left = tree.new Node(2);
         root.right = tree.new Node(5);
