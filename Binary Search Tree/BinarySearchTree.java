@@ -189,15 +189,23 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value>
         preorder_traversal(root.right);
     }
 
-    private Key getMin(Node root)
-    {
-        if(root.left == null) return root.key;
+    public Key getMin() {
+        if (root == null) return null;
+        return getMin(root);
+    }
+    
+    private Key getMin(Node root) {
+        if (root.left == null) return root.key;
         return getMin(root.left);
     }
-
-    private Key getMax(Node root)
-    {
-        if(root.right == null) return root.key;
+    
+    public Key getMax() {
+        if (root == null) return null;
+        return getMax(root);
+    }
+    
+    private Key getMax(Node root) {
+        if (root.right == null) return root.key;
         return getMax(root.right);
     }
 
@@ -235,6 +243,9 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value>
         System.out.println(bst1.rank(20));
 
         System.out.println(bst1.ceil(7));
+
+        System.out.println("Min: " + bst1.getMin());
+        System.out.println("Max: " + bst1.getMax());
 
         bst1.inorder_traversal();
         System.out.println();
