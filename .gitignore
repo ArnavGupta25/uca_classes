@@ -53,8 +53,6 @@ Binary Search Tree/A.class
 Binary Search Tree/BinarySearchTree.class
 Binary Search Tree/BinarySearchTree$Node.class
 Functional Programming (Java)/Streams/uppercase.class
-Balanced Trees/RedBlack.java
-
 Functional Programming (Java)/Streams/addition.class
 Functional Programming (Java)/Streams/grouping.class
 Threads/firstprog.class
@@ -63,3 +61,5 @@ Threads/count.class
 Threads/counter.class
 Threads/mythread.class
 Threads/Task1.java
+Balanced Trees/RedBlackTree.class
+Balanced Trees/RedBlackTree$TreeNode.class
