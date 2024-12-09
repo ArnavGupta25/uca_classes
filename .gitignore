@@ -63,3 +63,5 @@ Threads/mythread.class
 Threads/Task1.java
 Balanced Trees/RedBlackTree.class
 Balanced Trees/RedBlackTree$TreeNode.class
+Trie/Tries.class
+Trie/Tries$Node.class
