@@ -68,3 +68,6 @@ Threads/Task1.class
 Threads/Task1$Bank.class
 Threads/Task1$Withdrawer.class
 Threads/Task1$Depositer.class
+Threads/MT.class
+*.class
+            
