@@ -60,8 +60,11 @@ Threads/Myrunnable.class
 Threads/count.class
 Threads/counter.class
 Threads/mythread.class
-Threads/Task1.java
 Balanced Trees/RedBlackTree.class
 Balanced Trees/RedBlackTree$TreeNode.class
 Trie/Tries.class
 Trie/Tries$Node.class
+Threads/Task1.class
+Threads/Task1$Bank.class
+Threads/Task1$Withdrawer.class
+Threads/Task1$Depositer.class
