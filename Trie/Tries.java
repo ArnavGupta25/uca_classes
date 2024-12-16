@@ -1,3 +1,5 @@
+@SuppressWarnings("unchecked")
+
 public class Tries<Value>{
     private static final int R = 128;
     public Node root = null;

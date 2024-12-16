@@ -1,15 +1,16 @@
-package practice_problems;
+// package practice_problems;
 // @SuppressWarnings("all") // This can help suppress some warnings
 
 import java.util.*;
+import java.util.PriorityQueue;
 
-public class vertical_tree {
+public class VerticalTree {
     int val;
-    vertical_tree left;
-    vertical_tree right;
-    vertical_tree() {}
-    vertical_tree(int val) { this.val = val; }
-    vertical_tree(int val, vertical_tree left, vertical_tree right) {
+    VerticalTree left;
+    VerticalTree right;
+    VerticalTree() {}
+    VerticalTree(int val) { this.val = val; }
+    VerticalTree(int val, VerticalTree left, VerticalTree right) {
         this.val = val;
         this.left = left;
         this.right = right;
@@ -17,41 +18,43 @@ public class vertical_tree {
 }
 
 class Solution {
-    class Pair {
-        vertical_tree node;
+    class TreeNodePosition {
+        VerticalTree node;
         int row;
         int col;
         
-        Pair(vertical_tree node, int row, int col) {
+        TreeNodePosition(VerticalTree node, int row, int col) {
             this.node = node;
             this.row = row;
             this.col = col;
         }
     }
     
-    public List<List<Integer>> verticalTraversal(vertical_tree root) {
+    public List<List<Integer>> verticalTraversal(VerticalTree root) {
+        if (root == null) {
+            return new ArrayList<>();
+        }
+
         TreeMap<Integer, TreeMap<Integer, PriorityQueue<Integer>>> map = new TreeMap<>();
-        
-        Queue<Pair> q = new LinkedList<>();
-        q.offer(new Pair(root, 0, 0));
+        Queue<TreeNodePosition> q = new LinkedList<>();
+        q.offer(new TreeNodePosition(root, 0, 0));
     
         while (!q.isEmpty()) {
-            Pair curr = q.poll();
-            vertical_tree node = curr.node;
+            TreeNodePosition curr = q.poll();
+            VerticalTree node = curr.node;
             int row = curr.row;
             int col = curr.col;
 
             map.putIfAbsent(col, new TreeMap<>());
-
             map.get(col).putIfAbsent(row, new PriorityQueue<>());
             map.get(col).get(row).offer(node.val);
 
             if (node.left != null) {
-                q.offer(new Pair(node.left, row + 1, col - 1));
+                q.offer(new TreeNodePosition(node.left, row + 1, col - 1));
             }
             
             if (node.right != null) {
-                q.offer(new Pair(node.right, row + 1, col + 1));
+                q.offer(new TreeNodePosition(node.right, row + 1, col + 1));
             }
         }
 
@@ -59,13 +62,11 @@ class Solution {
         
         for (TreeMap<Integer, PriorityQueue<Integer>> column : map.values()) {
             List<Integer> colList = new ArrayList<>();
-
             for (PriorityQueue<Integer> row : column.values()) {
                 while (!row.isEmpty()) {
                     colList.add(row.poll());
                 }
             }
-            
             result.add(colList);
         }
         
