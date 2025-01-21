@@ -1,0 +1,135 @@
+SELECT title FROM Movie WHERE director = 'Steven Spielberg';
+------------------------------------------------------------------------------------------------------------------------------
+SELECT DISTINCT year FROM Movie m JOIN Rating r ON m.mID = r.mID WHERE r.stars IN (4, 5) ORDER BY year ASC;
+------------------------------------------------------------------------------------------------------------------------------
+SELECT title FROM Movie WHERE mID NOT IN (SELECT mID FROM Rating);
+------------------------------------------------------------------------------------------------------------------------------
+SELECT name FROM Reviewer r JOIN Rating rt ON r.rID = rt.rID WHERE rt.ratingDate IS NULL;
+------------------------------------------------------------------------------------------------------------------------------
+SELECT r.name, m.title, rt.stars, rt.ratingDate 
+FROM Reviewer r 
+JOIN Rating rt ON r.rID = rt.rID 
+JOIN Movie m ON rt.mID = m.mID 
+ORDER BY r.name, m.title, rt.stars;
+------------------------------------------------------------------------------------------------------------------------------
+SELECT r1.name, m.title
+FROM Reviewer r1
+JOIN Rating rt1 ON r1.rID = rt1.rID
+JOIN Rating rt2 ON rt1.rID = rt2.rID AND rt1.mID = rt2.mID
+JOIN Movie m ON rt1.mID = m.mID
+WHERE rt1.ratingDate < rt2.ratingDate AND rt1.stars < rt2.stars;
+------------------------------------------------------------------------------------------------------------------------------
+SELECT m.title AS movie_title, MAX(r.stars) AS max_stars
+FROM Rating r
+JOIN Movie m ON m.mID = r.mID
+GROUP BY m.title
+ORDER BY m.title;
+------------------------------------------------------------------------------------------------------------------------------
+SELECT m.title AS movie_title, MAX(r.stars) - MIN(r.stars) AS rating_spread
+FROM Rating r
+JOIN Movie m ON m.mID = r.mID
+GROUP BY m.title
+ORDER BY rating_spread DESC, m.title;
+------------------------------------------------------------------------------------------------------------------------------
+WITH avg_before AS (
+    SELECT AVG(r.stars) AS avg_rating
+    FROM Rating r
+    JOIN Movie m ON m.mID = r.mID
+    WHERE m.year < 1980
+    GROUP BY m.mID
+),
+avg_after AS (
+    SELECT AVG(r.stars) AS avg_rating
+    FROM Rating r
+    JOIN Movie m ON m.mID = r.mID
+    WHERE m.year >= 1980
+    GROUP BY m.mID
+)
+SELECT (SELECT AVG(avg_rating) FROM avg_before) - (SELECT AVG(avg_rating) FROM avg_after) AS rating_difference;
+------------------------------------------------------------------------------------------------------------------------------
+SELECT DISTINCT r.name
+FROM Rating rt
+JOIN Reviewer r ON r.rID = rt.rID
+JOIN Movie m ON m.mID = rt.mID
+WHERE m.title = 'Gone with the Wind';
+------------------------------------------------------------------------------------------------------------------------------
+SELECT r.name AS reviewer_name, m.title AS movie_title, rt.stars
+FROM Rating rt
+JOIN Reviewer r ON r.rID = rt.rID
+JOIN Movie m ON m.mID = rt.mID
+WHERE r.name = m.director;
+------------------------------------------------------------------------------------------------------------------------------
+SELECT r.name AS reviewer_name, m.title AS movie_title
+FROM Rating rt
+JOIN Reviewer r ON r.rID = rt.rID
+JOIN Movie m ON m.mID = rt.mID
+ORDER BY r.name, m.title;
+------------------------------------------------------------------------------------------------------------------------------
+SELECT m.title
+FROM Movie m
+WHERE m.mID NOT IN (
+    SELECT rt.mID
+    FROM Rating rt
+    JOIN Reviewer r ON r.rID = rt.rID
+    WHERE r.name = 'Chris Jackson'
+);
+------------------------------------------------------------------------------------------------------------------------------
+SELECT DISTINCT LEAST(r1.name, r2.name) AS reviewer1, GREATEST(r1.name, r2.name) AS reviewer2
+FROM Rating rt1
+JOIN Rating rt2 ON rt1.mID = rt2.mID AND rt1.rID != rt2.rID
+JOIN Reviewer r1 ON r1.rID = rt1.rID
+JOIN Reviewer r2 ON r2.rID = rt2.rID
+ORDER BY reviewer1, reviewer2;
+------------------------------------------------------------------------------------------------------------------------------
+SELECT r.name AS reviewer_name, m.title AS movie_title, rt.stars
+FROM Rating rt
+JOIN Reviewer r ON r.rID = rt.rID
+JOIN Movie m ON m.mID = rt.mID
+WHERE rt.stars = (SELECT MIN(stars) FROM Rating);
+------------------------------------------------------------------------------------------------------------------------------
+SELECT m.title, AVG(rt.stars) AS avg_rating
+FROM Rating rt
+JOIN Movie m ON m.mID = rt.mID
+GROUP BY m.title
+ORDER BY avg_rating DESC, m.title;
+------------------------------------------------------------------------------------------------------------------------------
+SELECT r.name
+FROM Reviewer r
+JOIN Rating rt ON rt.rID = r.rID
+GROUP BY r.name
+HAVING COUNT(rt.mID) >= 3;
+------------------------------------------------------------------------------------------------------------------------------
+SELECT m.title, m.director
+FROM Movie m
+WHERE m.director IS NOT NULL
+AND m.director IN (
+    SELECT director
+    FROM Movie
+    GROUP BY director
+    HAVING COUNT(mID) > 1
+)
+ORDER BY m.director, m.title;
+------------------------------------------------------------------------------------------------------------------------------
+WITH movie_avg AS (
+    SELECT m.title, AVG(rt.stars) AS avg_rating
+    FROM Rating rt
+    JOIN Movie m ON m.mID = rt.mID
+    GROUP BY m.title
+)
+SELECT title, avg_rating
+FROM movie_avg
+WHERE avg_rating = (SELECT MAX(avg_rating) FROM movie_avg);
+------------------------------------------------------------------------------------------------------------------------------
+WITH director_max AS (
+    SELECT m.director, m.title, MAX(rt.stars) AS max_rating
+    FROM Rating rt
+    JOIN Movie m ON m.mID = rt.mID
+    WHERE m.director IS NOT NULL
+    GROUP BY m.director, m.title
+)
+SELECT d.director, d.title, d.max_rating
+FROM director_max d
+WHERE d.max_rating = (SELECT MAX(max_rating) FROM director_max WHERE director = d.director)
+ORDER BY d.director, d.title;
+------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------
